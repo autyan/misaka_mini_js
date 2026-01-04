@@ -1,0 +1,1 @@
+const char *minijs_version = "0.1.0";
