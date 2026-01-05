@@ -9,6 +9,8 @@ set(CMAKE_C_EXTENSIONS OFF)
 add_executable(minijs
     src/main.c
     src/utility.c
+    src/minijs.c
+    src/common/mj_error.c
 )
 
 target_include_directories(minijs
