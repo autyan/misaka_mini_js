@@ -1,137 +1,91 @@
-# misake_mini_js
+# misaka_mini_js
 
-A minimal JavaScript runtime implemented in C, designed for learning and experimentation with JavaScript engine internals.
+A minimal JavaScript runtime written in C for learning and experimentation.
 
-`misake_mini_js` is a lightweight JavaScript runtime implemented from scratch in **C (C17 standard)**.
+This repository is an educational JS runtime that focuses on clarity and system design
+over performance or ECMAScript completeness.
 
-The primary goal of this project is to gain a practical, engineering-level understanding of the core components of a JavaScript engine, including:
+## Status
 
-* Lexical analysis (Lexer)
-* Syntax parsing (Parser)
-* Abstract Syntax Tree (AST)
-* Virtual Machine (VM) execution model
+This project is in the pre-compiler stage. The current focus is on:
 
-> ⚠️ This project is intended for learning and experimentation purposes. It is **not** a complete implementation of the ECMAScript specification, nor is it designed for performance or production use.
-
----
-
-## Features
-
-* Implemented in **C (C17 standard)**
-* Built and tested with **GCC**
-* Hand-written Lexer and Parser
-* AST-based execution model
-* Simple stack-based virtual machine
-* Clear and minimal internal architecture
-* Focused on educational value
-
----
-
-## Platform Support
-
-At the current stage:
-
-* **Operating System**: Linux
-* **Distribution**: Fedora 42
-* **Compiler**: GCC (Clang is not supported yet)
-
-Multi-platform support (other Linux distributions, Clang, macOS, etc.) will be considered **after the first core milestone**.
-
----
+- CLI and application flow
+- Runtime entry selection
+- Cross-platform filesystem helpers
+- Streaming input and encoding detection
 
 ## Build
 
 ### Requirements
 
-* Fedora 42
-* GCC (with C17 support)
-* GNU Make
+- CMake 3.20+
+- C17-capable compiler (GCC/Clang)
 
 ### Build from source
 
 ```bash
-make
+cmake -S . -B build
+cmake --build build
 ```
 
-Build output example:
-
-```bash
-./minijs
-```
-
----
+The output binary is written to `build/minijs`.
 
 ## Usage
 
 ### Run a JavaScript file
 
 ```bash
-./minijs examples/hello.js
+./build/minijs run path/to/file.js
 ```
 
-### Example
+### Run a project directory
 
-```js
-print(1 + 2);
+```bash
+./build/minijs run path/to/project
 ```
 
----
+Project entry resolution:
 
-## Project Structure
+1. `main.js`
+2. `index.js`
+
+If no entry is found, the runtime returns an error.
+
+## Encoding Policy
+
+- Default encoding is UTF-8.
+- UTF-8 with BOM is accepted.
+- UTF-16/UTF-32 are detected but currently rejected until a decoder is implemented.
+
+## Project Layout
 
 ```text
+include/
+  app/         # Application entry API
+  cli/         # CLI parsing
+  common/      # Errors, console, utilities
+  platform/    # Cross-platform filesystem helpers
+  runtime/     # Runtime interfaces and stream IO
 src/
-├── lexer.c        # Lexical analysis
-├── parser.c       # Syntax parsing
-├── ast.c          # Abstract Syntax Tree
-├── vm.c           # Virtual machine implementation
-├── runtime.c      # Runtime environment
-└── main.c         # Program entry
+  app/
+  cli/
+  common/
+  platform/
+  runtime/
 ```
-
----
 
 ## Design Goals
 
-* **Readability over performance**
-* **Clear separation of compilation stages**
-* **Minimal and explicit feature set**
-* **Educational value first**
-
-The project prioritizes clarity and correctness of implementation over completeness or optimization.
-
----
+- Readability over performance
+- Clear layering between CLI, runtime, and platform
+- Simple, explicit behavior
 
 ## Non-Goals
 
-* Full ECMAScript compliance
-* JIT compilation
-* Advanced garbage collection
-* Browser or Node.js compatibility
-
----
-
-## Roadmap
-
-* [ ] Variables and lexical scope
-* [ ] Function calls and closures
-* [ ] Control flow (`if`, `while`)
-* [ ] Basic memory management / GC prototype
-* [ ] Execution model refinements
-
----
+- Full ECMAScript compliance
+- JIT compilation
+- Production readiness
 
 ## License
 
-This project is licensed under the **MIT License**.
-
-The MIT license template used is the standard **GitHub MIT License** template.
-See the [LICENSE](LICENSE) file for details.
-
----
-
-## Acknowledgements
-
-* ECMAScript® Language Specification
-* Crafting Interpreters
-* Various open-source language runtime implementations
+MIT

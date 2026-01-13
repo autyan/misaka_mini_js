@@ -8,10 +8,21 @@ set(CMAKE_C_EXTENSIONS OFF)
 
 add_executable(minijs
     src/main.c
-    src/utility.c
-    src/minijs.c
+    src/app/app.c
+    src/cli/cli.c
+    src/runtime/runtime.c
+    src/runtime/stream_file.c
+    src/common/console.c
+    src/common/log.c
     src/common/mj_error.c
+    src/common/utility.c
 )
+
+if (WIN32)
+    target_sources(minijs PRIVATE src/platform/platform_win.c)
+else()
+    target_sources(minijs PRIVATE src/platform/platform_posix.c)
+endif()
 
 target_include_directories(minijs
     PRIVATE
